@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>HORIZON OF CR7 — Dribbling Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--gold:#d4af37;--gold2:#8a6d1d;--tx:#f1e9d0;color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#top{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);display:flex;justify-content:space-between;align-items:flex-start;padding:8px 12px;gap:8px;pointer-events:none}
+.brand{font-family:Cinzel,serif;color:var(--gold);letter-spacing:.15em;font-size:clamp(11px,2.6vw,15px)}
+.board{background:rgba(5,6,10,.78);border:1px solid var(--gold2);padding:5px 14px;border-radius:6px;text-align:center}
+.board b{font-family:Cinzel,serif;font-size:clamp(16px,4vw,22px);color:var(--gold)}
+#stats{font-size:11px;opacity:.9;margin-top:1px}
+#dots{display:flex;gap:5px;justify-content:center;margin-top:3px}
+#dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--gold2);display:block;font-style:normal;font-size:9px;line-height:11px}
+#dots i.g{background:var(--gold);color:#000}#dots i.x{background:#7a2230;border-color:#7a2230}
+.bt{display:flex;gap:6px;pointer-events:auto}
+button{font:600 13px Inter,sans-serif;color:var(--gold);background:rgba(5,6,10,.8);border:1px solid var(--gold2);border-radius:6px;padding:8px 11px;cursor:pointer;min-height:40px;touch-action:manipulation}
+button:hover{background:#17130a}button.off{opacity:.45;text-decoration:line-through}
+#hint{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));text-align:center;font-size:12px;opacity:.7;pointer-events:none;padding:0 10px}
+#res{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-family:Cinzel,serif;font-weight:700;font-size:clamp(34px,10vw,90px);color:var(--gold);text-shadow:0 0 30px rgba(212,175,55,.6),0 4px 0 #000;pointer-events:none;opacity:0;transition:opacity .25s;text-align:center;padding:0 10px}
+#res.on{opacity:1}
+#toast{position:fixed;left:0;right:0;top:22%;text-align:center;font:700 clamp(16px,4vw,26px) Cinzel,serif;color:var(--gold);opacity:0;transition:opacity .2s;pointer-events:none;text-shadow:0 2px 0 #000}
+#joy{position:fixed;z-index:5;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));width:clamp(110px,34vh,150px);height:clamp(110px,34vh,150px);border-radius:50%;border:2px solid var(--gold2);background:rgba(5,6,10,.45);display:none;touch-action:none;-webkit-touch-callout:none}
+#knob{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px;border-radius:50%;background:rgba(212,175,55,.75);pointer-events:none}
+.mb{position:fixed;z-index:5;display:none;border-radius:50%;border:2px solid var(--gold);background:rgba(5,6,10,.55);color:var(--gold);font:700 13px Cinzel,serif;letter-spacing:.08em;align-items:center;justify-content:center;touch-action:none;padding:0;-webkit-touch-callout:none}
+.mb.on{background:var(--gold);color:#000}
+#bT{left:calc(26px + env(safe-area-inset-left,0px));bottom:calc(40px + env(safe-area-inset-bottom,0px));width:104px;height:104px;font-size:15px}
+#bSp{right:calc(146px + env(safe-area-inset-right,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));width:84px;height:84px}
+#bCt{right:calc(26px + env(safe-area-inset-right,0px));bottom:calc(158px + env(safe-area-inset-bottom,0px));width:78px;height:78px;font-size:11px}
+body.m #joy{display:block}body.m .mb{display:flex}body.m #bSp,body.m #bCt{display:none}body.m #hint{display:none}
+/* mobile fallback: show touch controls purely via CSS on touch screens */
+@media (pointer:coarse),(hover:none){#joy{display:block}.mb{display:flex}#bSp,#bCt{display:none}#hint{display:none}}
+.ov{position:fixed;z-index:8;inset:0;background:rgba(3,4,8,.86);display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto;touch-action:auto}
+.ov.h{display:none}
+.card{max-width:460px;width:100%;border:1px solid var(--gold);border-radius:10px;padding:22px 24px;background:linear-gradient(160deg,#0b0d14,#05060a);text-align:center;box-shadow:0 0 50px rgba(212,175,55,.15)}
+.card h1{font-family:Cinzel,serif;color:var(--gold);margin:0;font-size:clamp(22px,6vw,32px);letter-spacing:.12em}
+.card h2{margin:4px 0 14px;font-size:13px;letter-spacing:.3em;font-weight:400;opacity:.8}
+.card p{font-size:13px;line-height:1.55;opacity:.9;text-align:left;margin:8px 0}
+.go{display:block;box-sizing:border-box;width:100%;margin-top:10px;padding:13px;font-size:15px;background:var(--gold);color:#000;border:1px solid var(--gold);border-radius:6px;font-family:Cinzel,serif;letter-spacing:.2em;text-align:center;text-decoration:none;cursor:pointer}
+.go:hover{background:#e8c55a}.go.alt{background:transparent;color:var(--gold)}.go.alt:hover{background:#17130a}
+#err{z-index:9}
+</style></head><body>
+<script>
+/* enable touch controls immediately, before the game/three.js finishes loading */
+(function(){try{if(matchMedia("(pointer:coarse)").matches||matchMedia("(hover:none)").matches||navigator.maxTouchPoints>0||"ontouchstart" in window||/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)||innerWidth<800)document.body.classList.add("m")}catch(e){}})();
+</script>
+<canvas id="c"></canvas>
+<div id="top"><div class="brand">HORIZON OF CR7</div>
+<div class="board"><b id="score">0</b><div id="stats"></div><div id="dots"></div></div>
+<div class="bt"><button id="bM">🔊</button><button id="bP">❚❚</button></div></div>
+<div id="hint">WASD / Arrows: move · SHIFT: sprint · C: tight control · SPACE: touch / shoot · R: restart · ESC: pause</div>
+<div id="res"></div><div id="toast"></div>
+<div id="joy"><div id="knob"></div></div>
+<button class="mb" id="bCt">CONTROL</button><button class="mb" id="bSp">SPRINT</button><button class="mb" id="bT">SHOOT</button>
+<div class="ov" id="menu"><div class="card"><h1>DRIBBLING CHALLENGE</h1><h2 id="sub"></h2><div id="body"></div>
+<button class="go" id="go"></button><button class="go alt" id="go2" style="display:none"></button>
+<a class="go alt" id="back" href="../pages/football-games.html">BACK TO GAMES</a></div></div>
+<div class="ov h" id="err"><div class="card"><h1>ERROR</h1><p id="errt"></p><button class="go" onclick="location.reload()">RELOAD</button></div></div>
+
+<script>
+function fail(m){document.getElementById("errt").textContent=m;document.getElementById("err").className="ov"}
+function boot(){
+"use strict";
+const $=id=>document.getElementById(id),T=THREE,clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const touchDev=matchMedia("(pointer:coarse)").matches||/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)||navigator.maxTouchPoints>0||"ontouchstart" in window,mobile=touchDev||innerWidth<800;
+if(touchDev)document.body.classList.add("m");
+addEventListener("touchstart",()=>document.body.classList.add("m"),{once:true,passive:true});
+const R=.11,G=-9.81,KD=.012,GW=3.66,GH=2.44,PH=1/120,ROUNDS=5,RTIME=45,XB=22,ZMAX=50,RUNS=6.2,SPRS=8.8,KZ=1;
+
+/* ================= AUDIO (procedural Web Audio, starts after first interaction) ================= */
+const A={ctx:null,on:true,vol:.8};
+function audioInit(){
+ if(A.ctx){A.ctx.resume();return}
+ const c=A.ctx=new (window.AudioContext||window.webkitAudioContext)();A.g=c.createGain();A.g.connect(c.destination);audioVol();
+ const nb=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=nb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;A.nb=nb;
+ const n=c.createBufferSource();n.buffer=nb;n.loop=true;const f=c.createBiquadFilter();f.type="bandpass";f.frequency.value=700;f.Q.value=.5;
+ const g=c.createGain();g.gain.value=.1;const l=c.createOscillator(),lg=c.createGain();l.frequency.value=.2;lg.gain.value=.04;l.connect(lg);lg.connect(g.gain);l.start();
+ n.connect(f);f.connect(g);g.connect(A.g);n.start()}
+function audioVol(){if(A.ctx)A.g.gain.value=A.on?A.vol:0}
+function tone(f,dur,type,v,to){if(!A.ctx)return;const c=A.ctx,t=c.currentTime,o=c.createOscillator(),g=c.createGain();
+ o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+dur);
+ g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g);g.connect(A.g);o.start(t);o.stop(t+dur)}
+function noise(dur,v,f0,f1,type,swell){if(!A.ctx)return;const c=A.ctx,t=c.currentTime,s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();
+ s.buffer=A.nb;fl.type=type||"bandpass";fl.frequency.setValueAtTime(f0,t);fl.frequency.linearRampToValueAtTime(f1,t+dur);
+ if(swell){g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(v,t+swell);g.gain.linearRampToValueAtTime(.001,t+dur)}else{g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+dur)}
+ s.connect(fl);fl.connect(g);g.connect(A.g);s.start(t);s.stop(t+dur)}
+let lastTouch=0;
+const SFX={
+ whistle(){tone(2900,.35,"sine",.25);setTimeout(()=>tone(2900,.5,"sine",.25),420)},
+ touch(){const n=performance.now();if(n-lastTouch>120){lastTouch=n;tone(190,.07,"sine",.35,90)}},
+ kick(){tone(150,.14,"sine",.9,45);noise(.07,.5,1500,500,"highpass")},
+ tackle(){noise(.2,.7,500,150,"lowpass");tone(120,.2,"square",.14,60)},
+ post(){tone(880,.7,"triangle",.4);tone(1320,.5,"triangle",.25)},
+ save(){tone(210,.15,"sine",.7,70);noise(.12,.5,900,300,"bandpass")},
+ bounce(){tone(170,.09,"sine",.3,90)},
+ beat(){tone(660,.12,"triangle",.22);tone(880,.16,"triangle",.18)},
+ combo(){tone(880,.1,"triangle",.3);setTimeout(()=>tone(1318,.22,"triangle",.3),90)},
+ goal(){tone(1046,.5,"triangle",.4);tone(1568,.7,"triangle",.3);noise(3,.9,900,1500,"bandpass",.5);tone(440,1.2,"sawtooth",.05,660);tone(90,.5,"sine",.8,40);
+  setTimeout(()=>SFX.whistle(),350);
+  try{const u=new SpeechSynthesisUtterance("Siuuu!");u.rate=.8;u.pitch=.7;u.volume=A.on?A.vol:0;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}},
+ miss(){tone(420,.8,"sawtooth",.08,160);noise(1,.25,500,300,"bandpass",.2)},
+ end(){tone(523,.3,"triangle",.3);setTimeout(()=>tone(659,.3,"triangle",.3),200);setTimeout(()=>tone(784,.6,"triangle",.3),400)}
+};
+const sfx=n=>{if(A.ctx&&A.on)SFX[n]()};
+
+/* ================= RENDERER / SCENE ================= */
+let renderer;
+try{renderer=new T.WebGLRenderer({canvas:$("c"),antialias:!mobile})}catch(e){fail("WebGL is not available in this browser or device.");return}
+renderer.setPixelRatio(Math.min(devicePixelRatio,mobile?1.5:2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+const scene=new T.Scene();scene.background=new T.Color(0x05070d);scene.fog=new T.Fog(0x05070d,45,130);
+const cam=new T.PerspectiveCamera(55,1,.1,200);
+function resize(){renderer.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.fov=cam.aspect<1?80:55;cam.updateProjectionMatrix()}
+addEventListener("resize",resize);addEventListener("orientationchange",()=>setTimeout(resize,200));resize();
+scene.add(new T.HemisphereLight(0x8fa3d9,0x10201a,.7));
+const sun=new T.DirectionalLight(0xfff3dd,.9);sun.castShadow=true;
+sun.shadow.mapSize.set(mobile?1024:2048,mobile?1024:2048);Object.assign(sun.shadow.camera,{left:-16,right:16,top:16,bottom:-16,near:1,far:70});scene.add(sun,sun.target);
+function canvasTex(w,h,fn){const c=document.createElement("canvas");c.width=w;c.height=h;fn(c.getContext("2d"),w,h);const t=new T.CanvasTexture(c);t.anisotropy=4;return t}
+// pitch: x -22..22, z -6..50 (goal on the z=0 line, player attacks towards -z)
+const pitchTex=canvasTex(440,560,x=>{for(let i=0;i<14;i++){x.fillStyle=i%2?"#2f7d32":"#37893a";x.fillRect(0,i*40,440,40)}
+ x.strokeStyle="#fff";x.lineWidth=3;const X=m=>(m+22)*10,Z=m=>(m+6)*10;
+ x.strokeRect(X(-21.5),Z(0),430,500);x.strokeRect(X(-20.16),Z(0),403,165);x.strokeRect(X(-9.16),Z(0),183,55);
+ x.beginPath();x.arc(X(0),Z(11),91.5,.646,2.495);x.stroke();x.beginPath();x.arc(X(0),Z(11),4,0,7);x.fillStyle="#fff";x.fill()});
+const pitch=new T.Mesh(new T.PlaneGeometry(44,56),new T.MeshStandardMaterial({map:pitchTex,roughness:.95}));
+pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,22);pitch.receiveShadow=true;scene.add(pitch);
+const ground=new T.Mesh(new T.PlaneGeometry(400,400),new T.MeshBasicMaterial({color:0x07090f}));ground.rotation.x=-Math.PI/2;ground.position.y=-.05;scene.add(ground);
+const white=new T.MeshStandardMaterial({color:0xffffff,roughness:.4});
+for(const x of[-GW,GW]){const m=new T.Mesh(new T.CylinderGeometry(.06,.06,GH,12),white);m.position.set(x,GH/2,0);m.castShadow=true;scene.add(m)}
+const bar=new T.Mesh(new T.CylinderGeometry(.06,.06,GW*2,12),white);bar.rotation.z=Math.PI/2;bar.position.y=GH;bar.castShadow=true;scene.add(bar);
+const netTex=canvasTex(64,64,x=>{x.strokeStyle="rgba(255,255,255,.9)";x.lineWidth=3;x.strokeRect(0,0,64,64)});netTex.wrapS=netTex.wrapT=T.RepeatWrapping;
+function netPlane(w,h,x,y,z,rx,ry){const t=netTex.clone();t.needsUpdate=true;t.repeat.set(w*5,h*5);const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({map:t,transparent:true,opacity:.45,side:T.DoubleSide,depthWrite:false}));m.position.set(x,y,z);m.rotation.set(rx,ry,0);scene.add(m)}
+netPlane(GW*2,GH,0,GH/2,-2,0,0);netPlane(2,GH,-GW,GH/2,-1,0,Math.PI/2);netPlane(2,GH,GW,GH/2,-1,0,Math.PI/2);netPlane(GW*2,2,0,GH,-1,Math.PI/2,0);
+const slabM=new T.MeshStandardMaterial({color:0x14161d,roughness:1});
+const slab=(w,l,x,y,z,rx,rz)=>{const m=new T.Mesh(new T.BoxGeometry(w,.3,l),slabM);m.position.set(x,y,z);m.rotation.set(rx,0,rz);scene.add(m)};
+slab(80,18,0,6.1,-14.2,.6435,0);slab(18,60,30,6.1,22,0,.6435);slab(18,60,-30,6.1,22,0,-.6435);
+const spots=[];for(let r=0;r<12;r++){for(let x=-34;x<=34;x+=.9)spots.push([x,1.2+r*.86,-7.8-r*1.15]);for(const s of[-1,1])for(let z=-6;z<=50;z+=.95)spots.push([s*(23.4+r*1.15),1.2+r*.86,z])}
+const crowd=new T.InstancedMesh(new T.BoxGeometry(.4,.65,.3),new T.MeshStandardMaterial({roughness:1}),spots.length);
+const pal=[0xd4af37,0xc0392b,0x1e8c3a,0xeeeeee,0x2b4c9b,0x222222,0xe67e22],dm=new T.Object3D();
+spots.forEach((s,i)=>{dm.position.set(s[0]+Math.random()*.2,s[1],s[2]);dm.scale.y=.8+Math.random()*.4;dm.updateMatrix();crowd.setMatrixAt(i,dm.matrix);crowd.setColorAt(i,new T.Color(pal[(Math.random()*pal.length)|0]))});
+scene.add(crowd);
+const adb=new T.Mesh(new T.PlaneGeometry(44,1.1),new T.MeshBasicMaterial({map:canvasTex(1024,32,(x,w,h)=>{x.fillStyle="#05060a";x.fillRect(0,0,w,h);x.fillStyle="#d4af37";x.font="600 22px Cinzel,serif";x.textAlign="center";x.fillText("HORIZON OF CR7   ·   HORIZON OF CR7   ·   HORIZON OF CR7   ·   HORIZON OF CR7",w/2,24)})}));
+adb.position.set(0,.55,-5.6);scene.add(adb);
+for(const [x,z] of[[-30,-8],[30,-8],[-30,52],[30,52]]){const p=new T.Mesh(new T.CylinderGeometry(.3,.4,26,8),new T.MeshStandardMaterial({color:0x333a46}));p.position.set(x,13,z);scene.add(p);
+ const l=new T.Mesh(new T.BoxGeometry(5,2.5,.5),new T.MeshBasicMaterial({color:0xfff6d0}));l.position.set(x,26.5,z);l.lookAt(0,5,20);scene.add(l)}
+
+/* ================= CHARACTERS (procedural rig, same as Target Shooting) ================= */
+function makeHuman(shirt,shorts,skin,hair,label,num,sock){
+ const g=new T.Group(),M=c=>new T.MeshStandardMaterial({color:c,roughness:.75}),H={g};
+ const bx=(w,h,d,c,x,y,z,par)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),M(c));m.position.set(x,y,z);m.castShadow=true;par.add(m);return m};
+ H.hips=new T.Group();H.hips.position.y=1;g.add(H.hips);bx(.38,.2,.22,shorts,0,0,0,H.hips);
+ H.torso=new T.Group();H.torso.position.y=.1;H.hips.add(H.torso);bx(.44,.56,.25,shirt,0,.3,0,H.torso);
+ bx(.19,.22,.2,skin,0,.8,0,H.torso);bx(.2,.08,.22,hair,0,.93,-.01,H.torso);
+ const p=new T.Mesh(new T.PlaneGeometry(.38,.38),new T.MeshBasicMaterial({map:canvasTex(128,128,x=>{x.fillStyle="#fff";x.textAlign="center";x.font="700 15px Cinzel,serif";x.fillText(label,64,18);x.font="700 100px Cinzel,serif";x.fillText(num,64,112)}),transparent:true}));
+ p.position.set(0,.34,-.13);p.rotation.y=Math.PI;H.torso.add(p);
+ const limb=(x,py,par,len,c,w)=>{const q=new T.Group();q.position.set(x,py,0);par.add(q);bx(w,len,w,c,0,-len/2,0,q);return q};
+ H.armL=limb(.3,.52,H.torso,.5,shirt,.11);H.armR=limb(-.3,.52,H.torso,.5,shirt,.11);
+ H.legL=limb(.11,-.05,H.hips,.45,shorts,.16);H.legR=limb(-.11,-.05,H.hips,.45,shorts,.16);
+ for(const k of["L","R"]){const kn=new T.Group();kn.position.y=-.45;H["leg"+k].add(kn);bx(.13,.42,.13,sock,0,-.21,0,kn);bx(.13,.08,.27,0x111111,0,-.45,.06,kn);H["knee"+k]=kn;bx(.09,.2,.09,skin,0,-.52,0,H["arm"+k])}
+ scene.add(g);return H}
+function pose(H,ph,amp,lean,t){const s=Math.sin(ph)*.9*amp;
+ H.legL.rotation.set(-s,0,0);H.legR.rotation.set(s,0,0);H.kneeL.rotation.x=amp*(.3+Math.max(0,s)*.9);H.kneeR.rotation.x=amp*(.3+Math.max(0,-s)*.9);
+ H.armL.rotation.set(s*.8,0,.12);H.armR.rotation.set(-s*.8,0,-.12);H.torso.rotation.set(0,0,0);H.hips.rotation.set(-lean*amp,0,0);
+ H.hips.position.y=1+Math.abs(Math.sin(ph))*.05*amp+Math.sin(t*2)*.004;H.g.rotation.z=0}
+const P=makeHuman(0xb3122b,0x0c5b2e,0xd9a77f,0x111111,"RONALDO","7",0x0c5b2e);
+const K=makeHuman(0xe6c200,0x111111,0xc99a76,0x2a1a0a,"KEEPER","1",0x111111);K.x=0;K.react=.25;K.err=0;
+const hairs=[0x111111,0x5a3b1a,0xc9a45a,0x222222,0x3a2210,0x111111],skins=[0xd9a77f,0xb98560,0xe8bf9a,0x8d5a3b,0xd9a77f,0xc99a76];
+const DEF=[];for(let i=0;i<6;i++){const m=makeHuman(0x1f4fa3,0xffffff,skins[i],hairs[i],"RIVAL",String(i+2),0x1f4fa3);m.g.visible=false;m.on=false;m.x=m.z=m.vx=m.vz=0;m.h=0;DEF.push(m)}
+const ballMesh=new T.Mesh(new T.SphereGeometry(R,24,16),new T.MeshStandardMaterial({roughness:.5,map:canvasTex(256,128,(x,w,h)=>{x.fillStyle="#f4f4f4";x.fillRect(0,0,w,h);x.fillStyle="#15151a";
+ for(let i=0;i<10;i++)for(let j=0;j<3;j++){const cx=(i+(j%2)*.5)*w/10,cy=(j+.5)*h/3;x.beginPath();for(let k=0;k<5;k++){const a=k*1.2566-1.57;x.lineTo(cx+Math.cos(a)*15,cy+Math.sin(a)*15)}x.fill()}})}));
+ballMesh.castShadow=true;scene.add(ballMesh);
+const PA=[],pg=new T.BoxGeometry(.07,.07,.07);
+for(let i=0;i<40;i++){const m=new T.Mesh(pg,new T.MeshBasicMaterial({color:[0xd4af37,0xc0392b,0xffffff][i%3]}));m.visible=false;scene.add(m);PA.push({m,v:new T.Vector3(),l:0})}
+function burst(x,y,z){PA.forEach(q=>{q.m.position.set(x,y,z);q.v.set((Math.random()-.5)*7,Math.random()*5+1,Math.random()*5);q.l=1.3;q.m.visible=true})}
+
+/* ================= GAME STATE ================= */
+const ball={p:{x:0,y:R,z:44.6},v:{x:0,y:0,z:0}};
+const pl={x:0,z:46,vx:0,vz:0,h:Math.PI,cd:0,tt:0,ph:0};
+const inp={x:0,y:0,sprint:false,ctl:false,tq:false};
+const S={st:"menu",round:0,score:0,goals:0,tt:0,rt:RTIME,beaten:0,combo:0,tk:0,tkAll:0,rr:[],cel:0,resT:0,scored:false,t:0,acc:0,crowdT:9,toastT:0};
+const DN=[3,4,5,5,6],DSP=[3.6,3.9,4.2,4.5,4.8];
+const bestGet=()=>{try{return +localStorage.getItem("cr7dribble")||0}catch(e){return 0}};
+const bestSet=v=>{try{localStorage.setItem("cr7dribble",v)}catch(e){}};
+function showRes(t){$("res").textContent=t;$("res").classList.add("on")}
+function toast(t){const e=$("toast");e.textContent=t;e.style.opacity=1;S.toastT=1.4}
+let hc="";
+function hud(){const k=[S.score,S.round,Math.ceil(S.rt),S.beaten,S.combo,S.rr.join()].join("|");if(k===hc)return;hc=k;
+ $("score").textContent=S.score;$("stats").textContent=`ROUND ${S.round+1}/${ROUNDS} · ${Math.ceil(S.rt)}s · BEATEN ${S.beaten}/${DN[S.round]} · COMBO x${S.combo}`;
+ $("dots").innerHTML=Array.from({length:ROUNDS},(_,i)=>{const r=S.rr[i];return `<i class="${r==="g"?"g":r?"x":""}">${r==="g"?"✓":r?"✕":""}</i>`}).join("")}
+function startRound(r){S.round=r;S.rt=RTIME;S.beaten=0;S.tk=0;S.combo=0;S.st="play";S.scored=false;S.cel=0;S.acc=0;$("res").classList.remove("on");
+ Object.assign(pl,{x:0,z:46,vx:0,vz:0,h:Math.PI,cd:0,tt:0});
+ ball.p.x=0;ball.p.y=R;ball.p.z=44.6;ball.v.x=ball.v.y=ball.v.z=0;K.x=0;K.react=.25;K.err=0;
+ const n=DN[r];DEF.forEach((d,i)=>{d.on=i<n;d.g.visible=i<n;if(i<n){d.z=d.hz=38-i*(27/(n-1));d.x=d.hx=(i%2?1:-1)*(1.5+Math.random()*7);
+  d.vx=d.vz=0;d.cd=0;d.st=0;d.sl=0;d.b=false;d.h=0;d.spd=DSP[r]*(.92+Math.random()*.16)}});hc="";hud()}
+function newGame(){S.score=0;S.goals=0;S.tt=0;S.tkAll=0;S.rr=[];startRound(0)}
+
+/* ================= INPUT SYSTEM (keyboard + pointer-event joystick/buttons) ================= */
+const keys={};let jx=0,jy=0,btnSp=false,btnCt=false;
+addEventListener("keydown",e=>{keys[e.code]=1;audioInit();
+ if(e.code==="Space"){if(!e.repeat)inp.tq=true;e.preventDefault()}
+ if(e.code==="Escape")pause();if(e.code==="KeyR"&&(S.st==="play"||S.st==="cel"))newGame();
+ if(e.code.startsWith("Arrow"))e.preventDefault()});
+addEventListener("keyup",e=>{keys[e.code]=0});addEventListener("blur",()=>{for(const k in keys)keys[k]=0;if(S.st==="play")pause()});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&S.st==="play")pause()});
+const joy=$("joy"),knob=$("knob");let jid=null;
+function jset(e){const r=joy.getBoundingClientRect(),m=r.width/2;let dx=e.clientX-(r.left+m),dy=e.clientY-(r.top+m);const L=Math.hypot(dx,dy);if(L>m){dx*=m/L;dy*=m/L}
+ knob.style.transform=`translate(${dx}px,${dy}px)`;const nx=dx/m,ny=dy/m;if(Math.hypot(nx,ny)<.12){jx=jy=0}else{jx=nx;jy=-ny}}
+const cap=(el,id)=>{try{el.setPointerCapture(id)}catch(e){}};
+joy.addEventListener("pointerdown",e=>{if(jid!==null)return;jid=e.pointerId;cap(joy,jid);audioInit();jset(e);e.preventDefault()});
+joy.addEventListener("pointermove",e=>{if(e.pointerId===jid){jset(e);e.preventDefault()}});
+const jend=e=>{if(e.pointerId===jid){jid=null;jx=jy=0;knob.style.transform=""}};joy.addEventListener("pointerup",jend);joy.addEventListener("pointercancel",jend);joy.addEventListener("lostpointercapture",jend);
+const bS=$("bSp"),bT=$("bT"),bC=$("bCt");
+bS.addEventListener("pointerdown",e=>{btnSp=true;bS.classList.add("on");cap(bS,e.pointerId);audioInit();e.preventDefault()});
+const sEnd=()=>{btnSp=false;bS.classList.remove("on")};bS.addEventListener("pointerup",sEnd);bS.addEventListener("pointercancel",sEnd);
+bT.addEventListener("pointerdown",e=>{inp.tq=true;bT.classList.add("on");cap(bT,e.pointerId);audioInit();e.preventDefault()});
+const tEnd=()=>bT.classList.remove("on");bT.addEventListener("pointerup",tEnd);bT.addEventListener("pointercancel",tEnd);
+bC.addEventListener("pointerdown",e=>{btnCt=true;bC.classList.add("on");cap(bC,e.pointerId);audioInit();e.preventDefault()});
+const cEnd=()=>{btnCt=false;bC.classList.remove("on")};bC.addEventListener("pointerup",cEnd);bC.addEventListener("pointercancel",cEnd);
+for(const e of[joy,bS,bT,bC])e.addEventListener("contextmenu",ev=>ev.preventDefault());
+document.addEventListener("contextmenu",ev=>{if(document.body.classList.contains("m"))ev.preventDefault()});
+document.addEventListener("touchmove",e=>{if(!e.target.closest(".ov"))e.preventDefault()},{passive:false});
+function gather(){const kx=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0),ky=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0);
+ inp.x=kx+jx;inp.y=ky+jy;inp.ctl=!!(keys.KeyC||btnCt);inp.sprint=!inp.ctl&&!!(keys.ShiftLeft||keys.ShiftRight||btnSp||Math.hypot(jx,jy)>.85);if(S.st!=="play")inp.tq=false}
+$("bM").onclick=()=>{audioInit();A.on=!A.on;$("bM").classList.toggle("off",!A.on);$("bM").textContent=A.on?"🔊":"🔇";audioVol()};
+$("bP").onclick=()=>pause();
+let prev=null;
+function menu(sub,html,b1,f1,b2,f2){$("sub").textContent=sub;$("body").innerHTML=html;$("go").textContent=b1;
+ $("go").onclick=()=>{audioInit();$("menu").classList.add("h");f1()};
+ const g2=$("go2");g2.style.display=b2?"block":"none";if(b2){g2.textContent=b2;g2.onclick=()=>{audioInit();$("menu").classList.add("h");f2()}}
+ $("menu").classList.remove("h")}
+function pause(){if(S.st==="paused"){S.st=prev;$("menu").classList.add("h")}
+ else if(S.st==="play"||S.st==="cel"){prev=S.st;S.st="paused";jx=jy=0;menu("PAUSED","<p>Game paused.</p>","RESUME",pause,"RESTART",newGame)}}
+const HOW=`<p><b>Goal:</b> dribble past the defenders who try to take the ball, then shoot and score. ${ROUNDS} rounds, ${RTIME}s each. Defenders get faster each round.</p>
+<p><b>PC:</b> WASD / Arrows move · SHIFT sprint · C tight control · SPACE touch / shoot · R restart · ESC pause.<br><b>Mobile:</b> right joystick to move (push to the edge to sprint) · SHOOT button on the left.</p>
+<p>The ball stays at your feet and turns with you. Sprint = ball runs further ahead. CONTROL = slower, ball glued close. Near goal, SHOOT aims at the side away from the keeper when you face the goal.</p>`;
+function mainMenu(){S.st="menu";menu("DRIBBLE · BEAT THE DEFENCE · SCORE",HOW+`<p>Best score: <b>${bestGet()}</b></p>`,"PLAY",newGame)}
+
+/* ================= BALL PHYSICS ================= */
+// gravity + quadratic air drag + bounce + rolling resistance (shared by real ball and shot-assist simulation)
+function advB(s,h){const v=s.v,p=s.p,sp=Math.hypot(v.x,v.y,v.z);
+ v.x-=KD*sp*v.x*h;v.y+=(G-KD*sp*v.y)*h;v.z-=KD*sp*v.z*h;p.x+=v.x*h;p.y+=v.y*h;p.z+=v.z*h;
+ if(p.y<R){p.y=R;if(v.y<0){v.y=-v.y*.6;if(v.y<1)v.y=0}
+  const s2=Math.hypot(v.x,v.z);if(s2>0){const n=Math.max(0,s2-.8*h)*Math.exp(-.7*h);v.x*=n/s2;v.z*=n/s2}}}
+function solveShot(ux,uz,pow,ty,fx,fz){let lo=0,hi=9;for(let i=0;i<16;i++){const m=(lo+hi)/2,s={p:{x:fx,y:R+.2,z:fz},v:{x:ux*pow,y:m,z:uz*pow}};let y=-1;
+  for(let k=0;k<240;k++){const pz=s.p.z,py=s.p.y;advB(s,1/60);if(s.p.z<=0){const f=pz/(pz-s.p.z);y=py+(s.p.y-py)*f;break}}
+  if(y<ty)lo=m;else hi=m}return(lo+hi)/2}
+function hit(cx,cy,cz,rad,e){const p=ball.p,v=ball.v;let dx=p.x-cx,dy=p.y-cy,dz=p.z-cz;const L=Math.hypot(dx,dy,dz);
+ if(L<R+rad&&L>1e-6){dx/=L;dy/=L;dz/=L;const k=R+rad;p.x=cx+dx*k;p.y=cy+dy*k;p.z=cz+dz*k;const vn=v.x*dx+v.y*dy+v.z*dz;
+  if(vn<0){const c=-(1+e)*vn;v.x+=dx*c;v.y+=dy*c;v.z+=dz*c;return -vn}}return 0}
+
+/* ================= FIXED-STEP SIMULATION ================= */
+function scoreGoal(cx,cy){S.st="cel";S.scored=true;S.cel=0;S.resT=2.8;S.rr[S.round]="g";
+ const corner=Math.abs(cx)>GW-1.1,pts=100+Math.floor(S.rt)*3+(S.tk===0?50:0)+(corner?25:0);S.score+=pts;S.goals++;S.crowdT=0;
+ burst(ball.p.x,Math.max(ball.p.y,.5),.5);sfx("goal");showRes("GOAL! +"+pts);hc=""}
+let tkLast=0,lastTouch2=0;
+function step(h){
+ const play=S.st==="play",p=ball.p,v=ball.v;
+ // --- player movement (acceleration, braking, inertia, normalized diagonals)
+ let mx=play?inp.x:0,mz=play?-inp.y:0,L=Math.hypot(mx,mz);if(L>1){mx/=L;mz/=L;L=1}
+ const vmax=(inp.sprint?SPRS:inp.ctl?4.2:RUNS)*L;let tvx=0,tvz=0;if(L>.001){tvx=mx/L*vmax;tvz=mz/L*vmax}
+ const sp0=Math.hypot(pl.vx,pl.vz),ax=tvx-pl.vx,az=tvz-pl.vz,al=Math.hypot(ax,az);
+ if(al>1e-6){const rate=Math.hypot(tvx,tvz)<sp0?26:(inp.sprint?12:17),m=Math.min(al,rate*h);pl.vx+=ax/al*m;pl.vz+=az/al*m}
+ pl.x=clamp(pl.x+pl.vx*h,-XB+.5,XB-.5);pl.z=clamp(pl.z+pl.vz*h,2.4,ZMAX-.5);
+ const sp=Math.hypot(pl.vx,pl.vz);
+ if(sp>.5){let dh=Math.atan2(pl.vx,pl.vz)-pl.h;dh=Math.atan2(Math.sin(dh),Math.cos(dh));pl.h+=clamp(dh,-12*h,12*h)}
+ pl.cd-=h;pl.tt-=h;
+ // --- ball integration + boundaries
+ const px=p.x,py=p.y,pz=p.z,vy0=v.y;advB(ball,h);
+ if(vy0<-2.5&&p.y<=R+1e-6&&v.y>0&&py>R+.03)sfx("bounce");
+ if(p.x>XB-R){p.x=XB-R;v.x=-Math.abs(v.x)*.5}if(p.x<-XB+R){p.x=-XB+R;v.x=Math.abs(v.x)*.5}
+ if(p.z>ZMAX-R){p.z=ZMAX-R;v.z=-Math.abs(v.z)*.5}
+ if(p.z<-1.9&&Math.abs(p.x)<GW){p.z=-1.9;v.x*=.3;v.y*=.3;v.z*=-.1}
+ if(p.z<-4.9){p.z=-4.9;v.z=Math.abs(v.z)*.2}
+ // --- player/ball interaction
+ let dx=p.x-pl.x,dz=p.z-pl.z,d=Math.hypot(dx,dz);
+ if(play&&inp.tq){inp.tq=false;pl.tt=.28;
+  if(d<1.8&&p.y<.5){const fx=Math.sin(pl.h),fz=Math.cos(pl.h);let ux=fx,uz=fz,pow=9+sp*.9+(inp.sprint?1.5:0),vy=0;
+   if(p.z<26){const side=K.x>.5?-1:K.x<-.5?1:(Math.random()<.5?-1:1),gx=side*2.4-p.x,gz=-p.z,gl=Math.hypot(gx,gz),gdx=gx/gl,gdz=gz/gl;
+    if(fx*gdx+fz*gdz>.77){ux=fx*.3+gdx*.7;uz=fz*.3+gdz*.7;const n=Math.hypot(ux,uz);ux/=n;uz/=n;pow=18+sp*.4;vy=solveShot(ux,uz,pow,.45+Math.random()*1.2,p.x,p.z);
+     K.err=(Math.random()-.5)*1.2;K.react=Math.max(.12,.28-.03*S.round)}
+    else{pow=14+sp*.5;vy=1.5}}
+   v.x=ux*pow;v.z=uz*pow;v.y=vy;pl.cd=.45;sfx("kick")}}
+ else if(play&&pl.cd<=0&&p.y<.35&&d<1.8){
+  // close control: the ball stays in front of the player and turns with them
+  const hx=Math.sin(pl.h),hz=Math.cos(pl.h),lead=inp.ctl?.58:(inp.sprint?1.15:.62)*clamp(.6+sp/8,.75,1.1),
+   tx=pl.x+hx*lead,tz=pl.z+hz*lead,g=inp.ctl?26:16,k=Math.min(1,(inp.ctl?30:20)*h);
+  v.x+=(pl.vx+(tx-p.x)*g-v.x)*k;v.z+=(pl.vz+(tz-p.z)*g-v.z)*k;
+  if(sp>1.5&&S.t-lastTouch2>.28){lastTouch2=S.t;sfx("touch")}}
+ d=Math.hypot(p.x-pl.x,p.z-pl.z);
+ if(p.y<1.4&&d<.42+R&&d>1e-5){const nx=(p.x-pl.x)/d,nz=(p.z-pl.z)/d;p.x=pl.x+nx*(.42+R);p.z=pl.z+nz*(.42+R);const vn=(v.x-pl.vx)*nx+(v.z-pl.vz)*nz;if(vn<0){v.x-=1.3*vn*nx;v.z-=1.3*vn*nz}}
+ // --- defenders
+ for(const o of DEF){if(!o.on)continue;o.cd-=h;o.st-=h;o.sl-=h;let gx=o.hx,gz=o.hz;
+  if(play&&o.st<=0&&(Math.hypot(pl.x-o.x,pl.z-o.z)<14||Math.hypot(p.x-o.x,p.z-o.z)<10)){gx=p.x+v.x*.22;gz=p.z+v.z*.22}
+  const ex=gx-o.x,ez=gz-o.z,el=Math.hypot(ex,ez),ds=(play&&o.st<=0&&el>.15)?o.spd:0,tx=el>1e-4?ex/el*ds:0,tz=el>1e-4?ez/el*ds:0;
+  const fx=tx-o.vx,fz=tz-o.vz,fl=Math.hypot(fx,fz);if(fl>1e-6){const m=Math.min(fl,15*h);o.vx+=fx/fl*m;o.vz+=fz/fl*m}
+  o.x+=o.vx*h;o.z+=o.vz*h;if(Math.hypot(o.vx,o.vz)>.4)o.h=Math.atan2(o.vx,o.vz);
+  const ox=pl.x-o.x,oz=pl.z-o.z,od=Math.hypot(ox,oz);if(od<.75&&od>1e-5){const q=(.75-od)/2;pl.x+=ox/od*q;pl.z+=oz/od*q;o.x-=ox/od*q;o.z-=oz/od*q}
+  for(const e2 of DEF){if(e2===o||!e2.on)continue;const qx=e2.x-o.x,qz=e2.z-o.z,qd=Math.hypot(qx,qz);if(qd<.8&&qd>1e-5){const q=(.8-qd)/2;e2.x+=qx/qd*q;e2.z+=qz/qd*q;o.x-=qx/qd*q;o.z-=qz/qd*q}}
+  if(play&&o.cd<=0&&p.y<.5&&Math.hypot(p.x-o.x,p.z-o.z)<.75){o.cd=1.6;o.st=.6;o.sl=.5;
+   let nx=p.x-o.x,nz=p.z-o.z;const nl=Math.hypot(nx,nz)||1;nx/=nl;nz/=nl;const own=Math.hypot(p.x-pl.x,p.z-pl.z)<3;
+   v.x=nx*5+(Math.random()-.5)*2;v.z=Math.abs(nz)*3+3;v.y=1.8;sfx("tackle");
+   if(own){pl.cd=.5;S.tk++;S.tkAll++;S.combo=0;S.score=Math.max(0,S.score-10);toast("TACKLED  −10");hc=""}}
+  if(play&&!o.b&&pl.z<o.z-.4&&p.z<o.z-.2){o.b=true;S.beaten++;S.combo++;const pts=25+(S.combo>1?10*(S.combo-1):0);S.score+=pts;
+   toast(S.combo>1?`DEFENDER BEATEN  x${S.combo}  +${pts}`:`DEFENDER BEATEN  +${pts}`);sfx(S.combo>1?"combo":"beat");hc=""}}
+ // --- goalkeeper
+ if(ball.v.z<-9&&Math.hypot(v.x,v.y,v.z)>14.5&&p.z<26&&p.z>1){K.react-=h;
+  if(K.react<=0){const t=p.z/-v.z,tx=clamp(p.x+v.x*t+K.err,-GW+.3,GW-.3);K.x+=clamp(tx-K.x,-(3+.35*S.round)*h,(3+.35*S.round)*h)}}
+ else{const tx=clamp(p.x*.55,-2.6,2.6);K.x+=clamp(tx-K.x,-(2+.2*S.round)*h,(2+.2*S.round)*h)}
+ if(p.z<4&&play){const w=Math.max(hit(K.x-.5,1,KZ-.1,.62,.4),hit(K.x+.5,1,KZ-.1,.62,.4));if(w>2.5&&S.t-tkLast>.4){tkLast=S.t;sfx("save")}}
+ // --- posts / crossbar
+ let w=0;for(const s of[-1,1])w=Math.max(w,hit(s*GW,clamp(p.y,0,GH),0,.06,.55));w=Math.max(w,hit(clamp(p.x,-GW,GW),GH,0,.06,.55));
+ if(w>2&&S.t-tkLast>.2){tkLast=S.t;sfx("post")}
+ // --- goal detection (previous/current position segment crossing the goal line)
+ if(play&&pz>0&&p.z<=0){const f=pz/(pz-p.z),cx=px+(p.x-px)*f,cy=py+(p.y-py)*f;
+  if(Math.abs(cx)<GW-.05&&cy<GH-.05)scoreGoal(cx,cy);
+  else{toast("WIDE!");sfx("miss");p.x=clamp(pl.x+Math.sin(pl.h)*1.1,-XB+1,XB-1);p.z=clamp(pl.z+Math.cos(pl.h)*1.1,2,ZMAX-1);p.y=R;v.x=v.y=v.z=0}}
+}
+
+/* ================= FRAME UPDATE / ANIMATION / CAMERA ================= */
+const camT=new T.Vector3(0,6,30),lookT=new T.Vector3(),_a=new T.Vector3();
+function update(dt){S.t+=dt;
+ if(S.st==="play"||S.st==="cel"){S.acc+=dt;while(S.acc>=PH){S.acc-=PH;step(PH)}}
+ if(S.st==="play"){S.rt-=dt;S.tt+=dt;if(S.rt<=0){S.rt=0;S.st="cel";S.scored=false;S.cel=0;S.resT=2.2;S.rr[S.round]="x";showRes("TIME UP!");sfx("miss");hc=""}}
+ else if(S.st==="cel"){S.cel+=dt;S.resT-=dt;if(S.resT<=0){if(S.round+1>=ROUNDS)end();else startRound(S.round+1)}}
+ if(S.toastT>0){S.toastT-=dt;if(S.toastT<=0)$("toast").style.opacity=0}
+ // player pose
+ const sp=Math.hypot(pl.vx,pl.vz),amp=Math.min(1,sp/6.5);pl.ph+=sp*dt*1.4;
+ pose(P,pl.ph,amp,.12+sp*.02,S.t);let jump=0;
+ if(S.st==="cel"&&S.scored){jump=S.cel<.7?Math.sin(S.cel/.7*Math.PI)*.8:0;P.armL.rotation.set(0,0,2.5);P.armR.rotation.set(0,0,-2.5);pl.h+=(0-pl.h)*(1-Math.exp(-6*dt))}
+ else if(pl.tt>0){const u=1-pl.tt/.28;P.legR.rotation.x=-1.3*Math.sin(u*Math.PI);P.kneeR.rotation.x=.2+.6*Math.sin(u*Math.PI)}
+ P.g.position.set(pl.x,jump,pl.z);P.g.rotation.y=pl.h;
+ for(const o of DEF){if(!o.on)continue;const s2=Math.hypot(o.vx,o.vz);o.ph=(o.ph||0)+s2*dt*1.4;pose(o,o.ph,Math.min(1,s2/5),.15,S.t);
+  if(o.sl>0){o.legR.rotation.x=-1.3;o.hips.rotation.x=-.5}o.g.position.set(o.x,0,o.z);o.g.rotation.y=o.h}
+ pose(K,0,0,0,S.t);const near=ball.p.z<18;K.armL.rotation.set(0,0,near?1:.15);K.armR.rotation.set(0,0,near?-1:-.15);K.hips.rotation.x=near?.18:0;
+ K.g.position.set(K.x,0,KZ);K.g.rotation.y=0;
+ for(const q of PA)if(q.l>0){q.l-=dt;q.v.y+=G*dt;q.m.position.addScaledVector(q.v,dt);q.m.rotation.x+=dt*8;if(q.l<=0||q.m.position.y<0)q.m.visible=false}
+ ballMesh.position.set(ball.p.x,ball.p.y,ball.p.z);const hs=Math.hypot(ball.v.x,ball.v.z);if(hs>.01){_a.set(ball.v.z,0,-ball.v.x).normalize();ballMesh.rotateOnWorldAxis(_a,hs/R*dt)}
+ S.crowdT+=dt;crowd.position.y=S.crowdT<3?Math.abs(Math.sin(S.crowdT*9))*.35*(1-S.crowdT/3):0;
+ hud()}
+function end(){S.st="end";const b=bestGet(),nb=S.score>b;if(nb)bestSet(S.score);$("res").classList.remove("on");sfx("end");
+ const g=S.goals,rate=g>=5?"WORLD CLASS":g===4?"Pure CR7":g===3?"Professional":g>=1?"Amateur":"Rookie — keep training",tm=S.tt.toFixed(1);
+ menu("FULL TIME",`<p style="text-align:center;font-size:34px;font-family:Cinzel,serif;color:var(--gold);margin:6px 0">${S.score} pts</p>
+ <p style="text-align:center">Goals ${g}/${ROUNDS} · Time ${tm}s · Tackles lost ${S.tkAll}<br>${nb?"NEW BEST SCORE!":"Best: "+Math.max(b,S.score)}<br>Rating: <b>${rate}</b></p>`,"PLAY AGAIN",newGame)}
+function render(dt){
+ const sp=Math.hypot(pl.vx,pl.vz);
+ camT.set(pl.x*.9,3.7+Math.min(sp,9)*.08,pl.z+7.4+sp*.18);
+ cam.position.lerp(camT,1-Math.exp(-5*dt));lookT.set(pl.x*.9,1,pl.z-9);cam.lookAt(lookT);
+ sun.position.set(pl.x+10,26,pl.z+8);sun.target.position.set(pl.x,0,pl.z-4);
+ renderer.render(scene,cam)}
+let last=performance.now();
+function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;
+ try{gather();if(S.st!=="paused")update(dt);render(dt)}catch(e){console.error(e)}}
+newGame();mainMenu();cam.position.set(0,5,56);requestAnimationFrame(frame);
+}
+</script>
+<script>
+(function(){
+function load(u,ok,bad){var s=document.createElement("script");s.src=u;s.onload=ok;s.onerror=bad;document.head.appendChild(s)}
+function run(){try{boot()}catch(e){console.error(e);fail("Game failed to start: "+e.message)}}
+load("https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",run,function(){
+ load("https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js",run,function(){
+  fail("Three.js could not be loaded. Check your internet connection, or download three.min.js (r128) and change the script src to a local file path.")})})
+})();
+</script>
+</body></html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090b">
+
+<title>CR7 — A Legacy in Frames</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: #08090b;
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #08090b;
+}
+
+/* FULL-SCREEN COMIC IMAGES */
+
+.comic-image {
+    display: block;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: #08090b;
+
+    scroll-snap-align: start;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+    .comic-image {
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+
+        object-fit: contain;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-01-the-little-dreamer.jpg"
+         alt="The Little Dreamer"
+         fetchpriority="high">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-02-a-boy-with-a-dream.jpg"
+         alt="A Boy With a Dream"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-03-leaving-home.jpg"
+         alt="Leaving Home"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-04-a-new-beginning.jpg"
+         alt="A New Beginning"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-05-the-first-big-opportunity.jpg"
+         alt="The First Big Opportunity"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-06-the-manchester-calling.jpg"
+         alt="The Manchester Calling"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-07-the-dream-invitation.jpg"
+         alt="The Dream Invitation"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-08-the-number-7.jpg"
+         alt="The Number 7"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-09-becoming-a-superstar.jpg"
+         alt="Becoming a Superstar"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-10-a-new-kingdom.jpg"
+         alt="A New Kingdom"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-11-the-king-of-madrid.jpg"
+         alt="The King of Madrid"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-12-the-champions-league-nights.jpg"
+         alt="The Champions League Nights"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-13-the-impossible-bicycle-kick.jpg"
+         alt="The Impossible Bicycle Kick"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-14-wearing-the-flag.jpg"
+         alt="Wearing the Flag"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-15-the-dream-of-a-nation.jpg"
+         alt="The Dream of a Nation"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-16-champions-of-europe.jpg"
+         alt="Champions of Europe"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-17-a-nations-pride.jpg"
+         alt="A Nation's Pride"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-18-the-return-of-number-7.jpg"
+         alt="The Return of Number 7"
+         loading="lazy">
+
+    <img class="comic-image"
+         src="../comics-images/cr7-scene-19-beyond-the-game.jpg"
+         alt="Beyond the Game"
+         loading="lazy">
+
+</main>
+
+</body>
+</html>

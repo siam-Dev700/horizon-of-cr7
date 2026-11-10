@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="My Personal Collection — A private collection of memories, artworks and football memorabilia inspired by Cristiano Ronaldo.">
+
+  <title>My Personal Collection — HORIZON OF CR7</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090909;
+      --bg-soft: #11100e;
+      --gold: #c5a46d;
+      --gold-light: #e0c697;
+      --text: #eee8dc;
+      --muted: #a49b8d;
+      --border: rgba(197, 164, 109, 0.2);
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Montserrat', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAVIGATION */
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 25px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .brand {
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+    }
+
+    .back-link {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .back-link:hover {
+      color: var(--gold-light);
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 20px 90px;
+      position: relative;
+      background:
+        radial-gradient(ellipse at center, rgba(145, 107, 53, 0.14), transparent 65%),
+        linear-gradient(180deg, #0c0b09, #090909);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.5;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 8vw, 100px);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+    }
+
+    .hero-description {
+      max-width: 470px;
+      margin-top: 28px;
+      font-size: 12px;
+      line-height: 2;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .collection-count {
+      margin-top: 42px;
+      color: var(--gold);
+      font-family: var(--serif);
+      font-size: 19px;
+      letter-spacing: 2px;
+    }
+
+    /* COLLECTION SECTIONS */
+
+    .collection {
+      max-width: 1250px;
+      margin: auto;
+      padding: 100px 7%;
+    }
+
+    .section-heading {
+      margin-bottom: 50px;
+    }
+
+    .section-number {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(35px, 5vw, 52px);
+      color: var(--text);
+    }
+
+    .section-line {
+      width: 65px;
+      height: 1px;
+      background: var(--gold);
+      margin-top: 20px;
+    }
+
+    /* GALLERY */
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 55px 45px;
+      align-items: start;
+    }
+
+    .collection-item {
+      min-width: 0;
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .collection-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .collection-item:nth-child(even) {
+      margin-top: 65px;
+    }
+
+    .image-frame {
+      position: relative;
+      padding: 12px;
+      background: linear-gradient(145deg, #211e18, #11100e);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .image-frame::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(197, 164, 109, 0.12);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .image-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #111;
+      transition: transform 0.7s ease;
+      cursor: zoom-in;
+    }
+
+    .collection-item:hover .image-frame img {
+      transform: scale(1.025);
+    }
+
+    .item-info {
+      padding: 20px 5px 0;
+    }
+
+    .item-title {
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 500;
+      color: var(--gold-light);
+      line-height: 1.2;
+    }
+
+    .item-caption {
+      margin-top: 9px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* SPECIAL ARTWORK */
+
+    .featured-item {
+      grid-column: 1 / -1;
+      max-width: 850px;
+      width: 100%;
+      margin: 30px auto 0;
+    }
+
+    .featured-item .image-frame {
+      padding: 15px;
+    }
+
+    .featured-item .item-info {
+      text-align: center;
+      padding-top: 25px;
+    }
+
+    .featured-item .item-title {
+      font-size: clamp(29px, 4vw, 40px);
+    }
+
+    /* SEPARATOR */
+
+    .collection-separator {
+      width: 80%;
+      max-width: 900px;
+      height: 1px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* CLOSING */
+
+    .closing {
+      padding: 130px 20px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at center, rgba(145, 107, 53, 0.12), transparent 70%);
+    }
+
+    .closing h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(35px, 6vw, 65px);
+      color: var(--gold-light);
+      line-height: 1.1;
+    }
+
+    .closing p {
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 3px;
+      line-height: 2;
+      text-transform: uppercase;
+    }
+
+    .closing-signature {
+      margin-top: 55px;
+      font-family: var(--serif);
+      font-size: 20px;
+      letter-spacing: 5px;
+      color: var(--gold);
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    footer p {
+      font-size: 9px;
+      color: #777064;
+      letter-spacing: 2px;
+      line-height: 2;
+    }
+
+    /* IMAGE LIGHTBOX */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+      background: rgba(0,0,0,0.96);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox img {
+      max-width: 95%;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      color: var(--gold-light);
+      font-size: 35px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 700px) {
+
+      .navbar {
+        padding: 20px 6%;
+      }
+
+      .brand {
+        font-size: 19px;
+        letter-spacing: 2px;
+      }
+
+      .back-link {
+        font-size: 9px;
+        letter-spacing: 1px;
+      }
+
+      .hero {
+        min-height: 65vh;
+        padding: 125px 20px 75px;
+      }
+
+      .eyebrow {
+        font-size: 9px;
+        letter-spacing: 3px;
+      }
+
+      .hero-description {
+        font-size: 10px;
+        max-width: 320px;
+      }
+
+      .collection {
+        padding: 75px 6%;
+      }
+
+      .section-heading {
+        margin-bottom: 35px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .collection-item:nth-child(even) {
+        margin-top: 0;
+      }
+
+      .image-frame {
+        padding: 9px;
+      }
+
+      .item-info {
+        padding-top: 16px;
+      }
+
+      .item-title {
+        font-size: 26px;
+      }
+
+      .item-caption {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+      }
+
+      .featured-item {
+        margin-top: 10px;
+      }
+
+      .closing {
+        padding: 100px 20px;
+      }
+
+      .closing-signature {
+        font-size: 16px;
+        letter-spacing: 3px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .collection-item {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <nav class="navbar">
+    <a href="../index.html" class="brand">HORIZON OF CR7</a>
+    <a href="../index.html" class="back-link">← Back to Home</a>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <header class="hero">
+    <div class="eyebrow">A Private Collection</div>
+
+    <h1>MY PERSONAL<br>COLLECTION</h1>
+
+    <p class="hero-description">
+      A collection of things that hold a special place in my memories.
+    </p>
+
+    <div class="collection-count">07 Pieces · Countless Memories</div>
+  </header>
+
+
+  <!-- 01 PHYSICAL MEMORABILIA -->
+
+  <section class="collection">
+
+    <div class="section-heading">
+      <div class="section-number">01 — THE PHYSICAL COLLECTION</div>
+      <h2>Physical Memorabilia</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery">
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-01-physical-football-card.jpg"
+            alt="A Physical Football Card"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">A Physical Football Card</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-02-toy-figures.jpg"
+            alt="Toy Figures"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">Toy Figures</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <div class="collection-separator"></div>
+
+
+  <!-- 02 CUSTOM CREATIONS -->
+
+  <section class="collection">
+
+    <div class="section-heading">
+      <div class="section-number">02 — CREATED WITH PASSION</div>
+      <h2>Custom Creations</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery">
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-03-custom-football-card-01.jpg"
+            alt="Custom Football Card Design One"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">Custom Football Card I</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-04-custom-football-card-02.jpg"
+            alt="Custom Football Card Design Two"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">Custom Football Card II</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+
+      <article class="collection-item featured-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-05-stylish-artwork.jpg"
+            alt="Stylish Ronaldo Artwork"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">A Stylish Artwork</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <div class="collection-separator"></div>
+
+
+  <!-- 03 PERSONAL ARTWORKS -->
+
+  <section class="collection">
+
+    <div class="section-heading">
+      <div class="section-number">03 — PERSONAL ARTWORKS</div>
+      <h2>Artworks & Memories</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery">
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-06-ronaldo-artwork.jpg"
+            alt="Ronaldo Artwork"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">Ronaldo Artwork</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+
+      <article class="collection-item">
+        <div class="image-frame">
+          <img
+            src="../assets/images/personal-07-farewell-letter-artwork.jpg"
+            alt="Ronaldo Reading His Farewell Letter"
+            loading="lazy">
+        </div>
+
+        <div class="item-info">
+          <h3 class="item-title">The Farewell Message</h3>
+          <p class="item-caption">My Personal Collection</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- CLOSING -->
+
+  <section class="closing">
+
+    <h2>Some Things Are<br>More Than Just Memories.</h2>
+
+    <p>
+      Every piece has its own place.<br>
+      Every memory has its own meaning.
+    </p>
+
+    <div class="closing-signature">
+      MY PERSONAL COLLECTION
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    <p>
+      HORIZON OF CR7 · A PERSONAL FAN-MADE COLLECTION
+      <br>
+      NOT AFFILIATED WITH CRISTIANO RONALDO
+    </p>
+  </footer>
+
+
+  <!-- LIGHTBOX -->
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close image">
+      &times;
+    </button>
+
+    <img src="" alt="Expanded collection image" id="lightboxImage">
+  </div>
+
+
+  <script>
+
+    // SCROLL REVEAL
+
+    const items = document.querySelectorAll('.collection-item');
+
+    if ('IntersectionObserver' in window) {
+
+      const observer = new IntersectionObserver((entries, observer) => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+
+        });
+
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px 50px 0px'
+      });
+
+      items.forEach(item => observer.observe(item));
+
+    } else {
+
+      items.forEach(item => item.classList.add('visible'));
+
+    }
+
+
+    // IMAGE LIGHTBOX
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const closeButton = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.image-frame img').forEach(img => {
+
+      img.addEventListener('click', () => {
+
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+      });
+
+    });
+
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    closeButton.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (event) => {
+
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+
+    });
+
+    document.addEventListener('keydown', (event) => {
+
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

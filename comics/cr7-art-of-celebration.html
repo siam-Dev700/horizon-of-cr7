@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090b">
+
+<title>CR7 — The Art of Celebration</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: #08090b;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #08090b;
+}
+
+/* FULL-SCREEN COMIC PAGES */
+
+.scene {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    background: #08090b;
+
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.comic-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: #08090b;
+
+    -webkit-user-drag: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+    .scene {
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    .comic-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+    <!-- SCENE 01 — THE SIUUU! -->
+
+    <section class="scene">
+        <img
+            class="comic-image"
+            src="../comics-images/cr7-celebration-01-the-siuuu.jpg"
+            alt="The SIUUU Celebration"
+            fetchpriority="high">
+    </section>
+
+
+    <!-- SCENE 02 — CALMA! CALMA! -->
+
+    <section class="scene">
+        <img
+            class="comic-image"
+            src="../comics-images/cr7-celebration-02-calma.jpg"
+            alt="Calma Calma Celebration"
+            loading="lazy">
+    </section>
+
+
+    <!-- SCENE 03 — THE KNEE-SLIDE ROAR -->
+
+    <section class="scene">
+        <img
+            class="comic-image"
+            src="../comics-images/cr7-celebration-03-the-knee-slide.jpg"
+            alt="The Knee-Slide Roar"
+            loading="lazy">
+    </section>
+
+
+    <!-- SCENE 04 — THE ARMS-WIDE ROAR -->
+
+    <section class="scene">
+        <img
+            class="comic-image"
+            src="../comics-images/cr7-celebration-04-the-arms-wide-roar.jpg"
+            alt="The Arms-Wide Roar"
+            loading="lazy">
+    </section>
+
+</main>
+
+</body>
+</html>

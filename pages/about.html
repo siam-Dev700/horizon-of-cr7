@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Discover the story, football games, comic collections and collector cards behind HORIZON OF CR7, an independent tribute to Cristiano Ronaldo.">
+  <title>About This Collection | HORIZON OF CR7</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #c6a56a;
+      --gold-soft: #e0c895;
+      --ink: #080909;
+      --muted: #c4beb2;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: #f5f0e7;
+      background: var(--ink);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(5,7,7,.93) 0%, rgba(5,7,7,.79) 42%, rgba(5,7,7,.50) 100%),
+        linear-gradient(180deg, rgba(4,5,5,.34) 0%, rgba(4,5,5,.70) 54%, #080909 100%),
+        url("../assets/images/about-bg.jpg") center 24% / cover no-repeat;
+      transform: scale(1.015);
+    }
+
+    .page-backdrop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 72% 20%, rgba(184,143,76,.13), transparent 42%);
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+    }
+
+    .serif { font-family: "Cormorant Garamond", Georgia, serif; }
+    .gold { color: var(--gold-soft); }
+    .eyebrow {
+      color: var(--gold);
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-size: .68rem;
+      font-weight: 600;
+    }
+
+    .nav-glass {
+      background: rgba(7,8,8,.58);
+      border-bottom: 1px solid rgba(198,165,106,.16);
+      backdrop-filter: blur(16px);
+    }
+
+    .section-shell { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+
+    .glass {
+      background: linear-gradient(135deg, rgba(12,14,13,.82), rgba(12,14,13,.58));
+      border: 1px solid rgba(198,165,106,.20);
+      box-shadow: 0 22px 70px rgba(0,0,0,.20);
+      backdrop-filter: blur(13px);
+    }
+
+    .gold-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(198,165,106,.75), transparent); }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 10px;
+      bottom: 12px;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(198,165,106,.8), rgba(198,165,106,.08));
+    }
+
+    .timeline-item { position: relative; padding-left: 38px; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 8px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 16px rgba(198,165,106,.45);
+      border: 2px solid #171613;
+    }
+
+    .edition {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(29,26,20,.94), rgba(9,11,10,.94));
+      border: 1px solid rgba(198,165,106,.35);
+    }
+
+    .edition::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -90px;
+      top: -90px;
+      border: 1px solid rgba(198,165,106,.24);
+      border-radius: 50%;
+      box-shadow: 0 0 0 22px rgba(198,165,106,.035), 0 0 0 44px rgba(198,165,106,.025);
+      pointer-events: none;
+    }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(224,200,149,.65);
+      color: #f0dfbd;
+      padding: 12px 19px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .68rem;
+      transition: .25s ease;
+    }
+
+    .btn-gold:hover {
+      background: rgba(198,165,106,.13);
+      border-color: var(--gold-soft);
+      transform: translateY(-2px);
+    }
+
+    /* Interactive game and comic collection cards */
+    .experience-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 245px;
+      padding: 25px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(24,25,22,.91), rgba(9,11,10,.88));
+      border: 1px solid rgba(198,165,106,.20);
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+      transition: transform .28s ease, border-color .28s ease, background .28s ease;
+    }
+
+    .experience-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -82px;
+      bottom: -88px;
+      border: 1px solid rgba(198,165,106,.19);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(198,165,106,.025), 0 0 0 36px rgba(198,165,106,.02);
+      pointer-events: none;
+    }
+
+    .experience-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(224,200,149,.58);
+      background: linear-gradient(145deg, rgba(35,31,23,.94), rgba(10,12,11,.94));
+    }
+
+    .card-index {
+      color: var(--gold);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .card-kicker {
+      color: #a99a7c;
+      font-size: .61rem;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .card-title {
+      color: #f3eee5;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.85rem;
+      line-height: 1.05;
+    }
+
+    .card-description {
+      color: rgba(245,240,231,.62);
+      font-size: .82rem;
+      line-height: 1.8;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: auto;
+      padding-top: 24px;
+      color: var(--gold-soft);
+      font-size: .63rem;
+      font-weight: 600;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .card-link span { transition: transform .2s ease; }
+    .experience-card:hover .card-link span { transform: translateX(4px); }
+
+    .collection-card { min-height: 275px; }
+    .collection-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #d4c19a;
+      font-size: .62rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .collection-stat::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 9px rgba(198,165,106,.6);
+    }
+
+    @media (max-width: 700px) {
+      .page-backdrop {
+        background:
+          linear-gradient(180deg, rgba(5,7,7,.55) 0%, rgba(5,7,7,.79) 35%, rgba(5,7,7,.94) 75%, #080909 100%),
+          url("../assets/images/about-bg.jpg") 64% top / auto 58vh no-repeat,
+          #080909;
+        transform: none;
+      }
+      .section-shell { width: min(calc(100% - 32px), 600px); }
+      .mobile-hero-space { padding-top: 31vh; }
+      .eyebrow { letter-spacing: .2em; }
+      .experience-card { min-height: 225px; padding: 22px; }
+      .collection-card { min-height: 250px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-backdrop" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav-glass fixed top-0 left-0 right-0 z-50">
+    <div class="section-shell h-[76px] flex items-center justify-between">
+      <a href="../index.html" class="serif text-xl md:text-2xl tracking-[.12em] gold">HORIZON <span class="text-white/80">OF</span> CR7</a>
+      <a href="../index.html" class="text-[10px] tracking-[.22em] uppercase text-white/75 hover:text-[#e0c895] transition">← Back to Home</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- INTRO -->
+    <section class="section-shell mobile-hero-space pt-40 md:pt-52 pb-24 md:pb-32 min-h-[670px] flex items-end">
+      <div class="max-w-3xl reveal">
+        <p class="eyebrow mb-5">A personal tribute · A collection of memories</p>
+        <h1 class="serif text-6xl sm:text-7xl md:text-8xl leading-[.88] font-medium">
+          ABOUT THIS<br><span class="gold italic">COLLECTION.</span>
+        </h1>
+        <div class="gold-line w-28 my-8"></div>
+        <p class="max-w-xl text-white/80 leading-8 text-sm md:text-base">
+          One journey. Countless moments. A personal space created to honour the determination,
+          achievements and memories of Cristiano Ronaldo — bringing together his story, interactive
+          football challenges, comic artwork and a small personal collection.
+        </p>
+        <a href="#the-journey" class="btn-gold mt-8">Explore the story <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- ABOUT THE PROJECT -->
+    <section class="section-shell py-16 md:py-24 reveal">
+      <div class="glass rounded-sm p-7 md:p-12 max-w-4xl">
+        <p class="eyebrow mb-4">Why this collection exists</p>
+        <h2 class="serif text-4xl md:text-5xl mb-6">More than a website.<br><span class="gold italic">A place for memories.</span></h2>
+        <p class="text-white/75 leading-8 text-sm md:text-base">
+          HORIZON OF CR7 is a personal tribute built around the journey of Cristiano Ronaldo.
+          It brings together career memories, interactive football games, original comic-style visual
+          collections and a small collector-card experience — preserving the feeling of an extraordinary
+          football era in one place.
+        </p>
+        <p class="text-white/55 leading-7 text-sm mt-4">
+          This collection is not an official Cristiano Ronaldo website. It is an independent fan-made
+          project, created with admiration and respect.
+        </p>
+      </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section id="the-journey" class="section-shell py-16 md:py-24 reveal">
+      <div class="max-w-4xl">
+        <p class="eyebrow mb-4">1997 — 2026 · The journey so far</p>
+        <h2 class="serif text-5xl md:text-6xl mb-5">THE JOURNEY OF <span class="gold italic">A LEGEND.</span></h2>
+        <p class="text-white/65 max-w-2xl leading-7 text-sm mb-12">
+          From a young boy leaving Madeira to a name known in every corner of the football world.
+          Different clubs, different chapters — one relentless pursuit of greatness.
+        </p>
+
+        <div class="timeline space-y-9 max-w-3xl">
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">1997 — 2002</p>
+            <h3 class="serif text-2xl mt-1">The first dream · Sporting CP</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">At just 12, he left home for Sporting's academy. The journey began with sacrifice, courage and a dream bigger than his surroundings.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2003 — 2009</p>
+            <h3 class="serif text-2xl mt-1">A new stage · Manchester United</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">A gifted young winger arrived in England and grew into a global star, winning the Champions League and his first Ballon d'Or in 2008.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2009 — 2018</p>
+            <h3 class="serif text-2xl mt-1">The Madrid years · Real Madrid</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">A remarkable chapter of goals, records and four Champions League titles. He became the club's all-time leading goalscorer.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2018 — 2021</p>
+            <h3 class="serif text-2xl mt-1">A new challenge · Juventus</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">He carried his ambition to Italy, won domestic honours and continued to deliver on a different stage.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2021 — 2022</p>
+            <h3 class="serif text-2xl mt-1">Back where it began · Manchester United</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">A return to Old Trafford brought another chapter with the club where he first became a world superstar.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2023 — PRESENT</p>
+            <h3 class="serif text-2xl mt-1">A new horizon · Al-Nassr</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">A new football chapter in Saudi Arabia — still competing, still scoring, and still adding to a career that continues to evolve.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="gold text-xs tracking-[.2em] font-semibold">2003 — 2026 · PORTUGAL</p>
+            <h3 class="serif text-2xl mt-1">For the shirt · For the nation</h3>
+            <p class="text-white/65 text-sm leading-7 mt-2">From his first senior appearance to captaining Portugal to the 2016 European Championship and two Nations League titles. In November 2026, he announced the end of his international career — a 23-year chapter with his country.</p>
+          </article>
+        </div>
+        <p class="text-white/45 text-xs leading-6 mt-10 max-w-2xl">
+          His Portugal international chapter has ended; this does not mean he has retired from all football.
+          His club career with Al-Nassr is a separate, continuing chapter.
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTBALL GAMES -->
+    <section id="football-games" class="section-shell py-16 md:py-24 reveal">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow mb-4">Play the game · Test your skills</p>
+        <h2 class="serif text-5xl md:text-6xl">THE FOOTBALL <span class="gold italic">PLAYGROUND.</span></h2>
+        <p class="text-white/65 text-sm md:text-base leading-8 mt-5 max-w-2xl">
+          The tribute is not only something to read or watch. It also includes five small football
+          experiences where visitors can take a shot, test their timing and step into the action.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a class="experience-card" href="../game/free-kick.html">
+          <span class="card-index">01</span>
+          <span class="card-kicker mt-5">Set piece challenge</span>
+          <h3 class="card-title mt-2">Free Kick Challenge</h3>
+          <p class="card-description mt-3">Choose your angle, judge the distance and bend the ball past the wall toward goal.</p>
+          <span class="card-link">Play game <span>↗</span></span>
+        </a>
+
+        <a class="experience-card" href="../game/penalty-shootout.html">
+          <span class="card-index">02</span>
+          <span class="card-kicker mt-5">One-on-one pressure</span>
+          <h3 class="card-title mt-2">Penalty Shootout</h3>
+          <p class="card-description mt-3">Step up to the penalty spot, pick your target and try to beat the goalkeeper.</p>
+          <span class="card-link">Play game <span>↗</span></span>
+        </a>
+
+        <a class="experience-card" href="../game/dribbling-challenge.html">
+          <span class="card-index">03</span>
+          <span class="card-kicker mt-5">Between the posts</span>
+          <h3 class="card-title mt-2">Dribbling Challenge</h3>
+          <p class="card-description mt-3">Navigate through defenders and find the perfect pass or shot.</p>
+          <span class="card-link">Play game <span>↗</span></span>
+        </a>
+
+        <a class="experience-card" href="../game/target-shooting.html">
+          <span class="card-index">04</span>
+          <span class="card-kicker mt-5">Accuracy test</span>
+          <h3 class="card-title mt-2">Target Shooting Challenge</h3>
+          <p class="card-description mt-3">Aim carefully, control your shot and hit the targets around the goal.</p>
+          <span class="card-link">Play game <span>↗</span></span>
+        </a>
+
+        <a class="experience-card" href="../game/football-match.html">
+          <span class="card-index">05</span>
+          <span class="card-kicker mt-5">Match simulation</span>
+          <h3 class="card-title mt-2">Football Match</h3>
+          <p class="card-description mt-3">Experience the thrill of a real football match with this interactive simulation.</p>
+          <span class="card-link">Play game <span>↗</span></span>
+        </a>
+      </div>
+
+      <p class="text-white/40 text-xs leading-6 mt-6">Five football games · Built as part of the HORIZON OF CR7 experience.</p>
+    </section>
+
+    <!-- COMIC COLLECTIONS -->
+    <section id="comic-collections" class="section-shell py-16 md:py-24 reveal">
+      <div class="max-w-3xl mb-12">
+        <p class="eyebrow mb-4">Stories drawn in moments</p>
+        <h2 class="serif text-5xl md:text-6xl">THE CR7 <span class="gold italic">COMIC ARCHIVE.</span></h2>
+        <p class="text-white/65 text-sm md:text-base leading-8 mt-5 max-w-2xl">
+          Four visual collections tell the story in different ways — a career-long chronicle,
+          unforgettable football moments, signature celebrations and the evolution of the player.
+          Each collection opens as a full-screen comic reading experience.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <a class="experience-card collection-card" href="../comics/cr7-legacy-in-frames.html">
+          <span class="card-kicker">The complete visual chronicle</span>
+          <h3 class="card-title text-3xl mt-4">CR7 — A Legacy in Frames</h3>
+          <p class="card-description mt-3">A chronological visual journey from the young dreamer in Madeira through the defining chapters of his career.</p>
+          <span class="collection-stat mt-5">18 scenes</span>
+          <span class="card-link">Read collection <span>↗</span></span>
+        </a>
+
+        <a class="experience-card collection-card" href="../comics/cr7-iconic-moments.html">
+          <span class="card-kicker">The moments that made history</span>
+          <h3 class="card-title text-3xl mt-4">CR7 — Iconic Moments</h3>
+          <p class="card-description mt-3">Six memorable moments from the biggest stages of club and international football.</p>
+          <span class="collection-stat mt-5">6 scenes</span>
+          <span class="card-link">Read collection <span>↗</span></span>
+        </a>
+
+        <a class="experience-card collection-card" href="../comics/cr7-art-of-celebration.html">
+          <span class="card-kicker">Every celebration tells a story</span>
+          <h3 class="card-title text-3xl mt-4">CR7 — The Art of Celebration</h3>
+          <p class="card-description mt-3">Four comic pages dedicated to the signature celebrations that became part of Ronaldo's identity.</p>
+          <span class="collection-stat mt-5">4 scenes</span>
+          <span class="card-link">Read collection <span>↗</span></span>
+        </a>
+
+        <a class="experience-card collection-card" href="../comics/cr7-the-evolution.html">
+          <span class="card-kicker">From Madeira to the modern era</span>
+          <h3 class="card-title text-3xl mt-4">CR7 — The Evolution</h3>
+          <p class="card-description mt-3">A visual look at the changing face, physique, kits and football identity across six defining eras.</p>
+          <span class="collection-stat mt-5">6 scenes</span>
+          <span class="card-link">Read collection <span>↗</span></span>
+        </a>
+      </div>
+
+      <div class="glass mt-5 p-6 md:p-8 flex flex-col sm:flex-row gap-5 sm:items-center sm:justify-between">
+        <div>
+          <p class="eyebrow mb-2">One player · Four perspectives</p>
+          <p class="serif text-3xl md:text-4xl">34 scenes. Countless memories.</p>
+          <p class="text-white/55 text-xs leading-6 mt-2">A fan-made comic archive created for the HORIZON OF CR7 project.</p>
+        </div>
+        <a href="../pages/visual-story.html" class="btn-gold shrink-0">Explore visual stories <span>↗</span></a>
+      </div>
+    </section>
+
+    <!-- COLLECTOR CARDS -->
+    <section class="section-shell py-16 md:py-24 reveal">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow mb-4">A physical piece of the collection</p>
+        <h2 class="serif text-5xl md:text-6xl">TWO EDITIONS.<br><span class="gold italic">ONE LEGACY.</span></h2>
+        <p class="text-white/65 text-sm leading-7 mt-5">
+          Two numbered collector cards, made as a tangible part of this tribute.
+          Each card connects the physical keepsake to its digital memory.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        <div class="edition rounded-sm p-7 md:p-9 min-h-[220px]">
+          <p class="eyebrow">Collector card</p>
+          <p class="serif text-5xl md:text-6xl gold mt-8">01 <span class="text-white/35">/ 02</span></p>
+          <p class="text-white/55 text-xs tracking-[.18em] uppercase mt-4">Edition one of two</p>
+        </div>
+        <div class="edition rounded-sm p-7 md:p-9 min-h-[220px]">
+          <p class="eyebrow">Collector card</p>
+          <p class="serif text-5xl md:text-6xl gold mt-8">02 <span class="text-white/35">/ 02</span></p>
+          <p class="text-white/55 text-xs tracking-[.18em] uppercase mt-4">Edition two of two</p>
+        </div>
+      </div>
+      <div class="glass max-w-4xl mx-auto mt-5 p-7 md:p-9">
+        <h3 class="serif text-3xl gold mb-3">Tap. Scan. Remember.</h3>
+        <p class="text-white/70 text-sm leading-7">
+          Each card is designed with NFC and a QR code. Tap it with an NFC-compatible phone to open
+          its digital destination, or scan the QR code with a camera if NFC is unavailable.
+          The same memory can be reached in two simple ways.
+        </p>
+        <p class="text-white/45 text-xs leading-6 mt-4">
+          The final NFC destination and QR links will be added when the two card experiences are ready.
+        </p>
+      </div>
+    </section>
+
+    <!-- TIME CAPSULE -->
+    <section class="section-shell py-20 md:py-32 reveal">
+      <div class="max-w-4xl mx-auto text-center glass px-7 py-12 md:px-16 md:py-16">
+        <p class="eyebrow mb-6">A message through time</p>
+        <h2 class="serif text-5xl md:text-7xl leading-[.95]">WE WERE HERE.<br><span class="gold italic">WE SAW THIS ERA.</span></h2>
+        <div class="gold-line w-24 mx-auto my-8"></div>
+        <p class="serif text-2xl md:text-3xl leading-relaxed text-white/85">
+          Years from now, the stadiums may grow quiet, the shirts may change, and new names may rise.
+          But somewhere in time, these moments will remain — reminders of a player, a journey,
+          and an era that made millions believe.
+        </p>
+        <p class="text-white/55 text-sm leading-7 mt-7 max-w-2xl mx-auto">
+          This collection is a small time capsule for those memories. Not to hold time still,
+          but to make sure we can return to what it meant.
+        </p>
+        <p class="gold text-xs tracking-[.28em] uppercase mt-9">One legend. Countless memories.</p>
+      </div>
+    </section>
+
+    <!-- SPECIAL ARTWORK SHOWCASE -->
+    <section class="section-shell py-10 md:py-16 reveal">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="eyebrow mb-4">A moment, preserved</p>
+        <h2 class="serif text-4xl md:text-5xl">A MOMENT, <span class="gold italic">PRESERVED FOREVER.</span></h2>
+        <p class="text-white/60 text-sm leading-7 mt-4">
+          A dedicated artwork inspired by a meaningful video-message moment will be presented here —
+          as its own piece, never as the page background.
+        </p>
+        <!-- Later, place the separate artwork here as an image element. -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#c6a56a]/20 mt-16">
+    <div class="section-shell py-8 flex flex-col sm:flex-row gap-3 justify-between items-center text-center sm:text-left">
+      <p class="serif tracking-[.12em] gold">HORIZON OF CR7</p>
+      <p class="text-white/40 text-[10px] tracking-[.16em] uppercase">An independent personal tribute · Not affiliated with Cristiano Ronaldo</p>
+      <a href="../index.html" class="text-xs text-white/65 hover:text-[#e0c895]">Return home ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((element) => {
+      revealObserver.observe(element);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+
+  <meta name="description"
+    content="Explore the Football Gaming Universe of HORIZON OF CR7. Discover five interactive football games.">
+
+  <title>Football Games — HORIZON OF CR7</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    :root {
+      --bg: #090909;
+      --bg-soft: #11100e;
+      --gold: #c5a46d;
+      --gold-light: #e0c697;
+      --text: #eee8dc;
+      --muted: #a49b8d;
+      --border: rgba(197, 164, 109, 0.2);
+
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Montserrat', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+
+    /* NAVIGATION */
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 20;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 25px 7%;
+
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8,8,8,0.25);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+    }
+
+    .back-link {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .back-link:hover {
+      color: var(--gold-light);
+    }
+
+
+    /* HERO */
+
+    .hero {
+      min-height: 90vh;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      padding: 140px 8% 100px;
+
+      overflow: hidden;
+
+      background: #090909;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      opacity: 0.65;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(5,5,5,0.96) 0%,
+          rgba(5,5,5,0.75) 42%,
+          rgba(5,5,5,0.15) 100%
+        ),
+        linear-gradient(
+          0deg,
+          #090909 0%,
+          transparent 35%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+    }
+
+    .hero-eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(55px, 8vw, 105px);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--text);
+    }
+
+    .hero-description {
+      max-width: 450px;
+      margin-top: 30px;
+
+      color: #c2b9aa;
+      font-size: 12px;
+      line-height: 2.1;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+
+      margin-top: 38px;
+      padding: 15px 24px;
+
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      transition: all 0.3s ease;
+    }
+
+    .hero-button:hover {
+      background: var(--gold);
+      color: #090909;
+    }
+
+    .hero-button span {
+      font-size: 17px;
+    }
+
+
+    /* INTRODUCTION */
+
+    .intro {
+      text-align: center;
+      padding: 95px 20px 55px;
+    }
+
+    .intro-label {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .intro h2 {
+      font-family: var(--serif);
+      font-size: clamp(37px, 5vw, 58px);
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .intro p {
+      max-width: 500px;
+      margin: 18px auto 0;
+
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+    }
+
+
+    /* GAME COLLECTION */
+
+    .games-section {
+      max-width: 1300px;
+      margin: auto;
+      padding: 40px 7% 120px;
+    }
+
+    .games-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .games-heading h3 {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--gold-light);
+    }
+
+    .games-heading p {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+
+    /* GAME GRID */
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+    }
+
+    .game-card {
+      display: block;
+      min-width: 0;
+
+      background: #11100e;
+      border: 1px solid var(--border);
+
+      overflow: hidden;
+      position: relative;
+
+      opacity: 0;
+      transform: translateY(30px);
+
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+    }
+
+    .game-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .game-card:hover {
+      border-color: rgba(197,164,109,0.7);
+      box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+    }
+
+    .game-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+
+      overflow: hidden;
+      background: #151515;
+    }
+
+    .game-image img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      transition: transform 0.7s ease;
+    }
+
+    .game-card:hover .game-image img {
+      transform: scale(1.06);
+    }
+
+    .game-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.55),
+        transparent 55%
+      );
+
+      pointer-events: none;
+    }
+
+    .game-number {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 2;
+
+      padding: 7px 11px;
+
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(197,164,109,0.5);
+
+      color: var(--gold-light);
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .game-info {
+      padding: 22px 23px 25px;
+    }
+
+    .game-category {
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .game-title {
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .game-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-top: 20px;
+      padding-top: 15px;
+
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .play-label {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      transition: color 0.3s;
+    }
+
+    .play-icon {
+      width: 34px;
+      height: 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+
+      color: var(--gold-light);
+      font-size: 14px;
+
+      transition: all 0.3s;
+    }
+
+    .game-card:hover .play-icon {
+      background: var(--gold);
+      color: #090909;
+    }
+
+    .game-card:hover .play-label {
+      color: var(--gold-light);
+    }
+
+
+    /* FEATURED MATCH */
+
+    .featured-match {
+      grid-column: 1 / -1;
+
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+
+      border: 1px solid rgba(197,164,109,0.4);
+      background: linear-gradient(120deg, #17140f, #0e0d0b);
+
+      overflow: hidden;
+    }
+
+    .featured-match .game-image {
+      aspect-ratio: auto;
+      min-height: 350px;
+      height: 100%;
+    }
+
+    .featured-match .game-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 35px;
+    }
+
+    .featured-match .game-title {
+      font-size: clamp(30px, 4vw, 45px);
+    }
+
+    .featured-match .game-description {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+      margin-top: 15px;
+    }
+
+    .featured-match .game-bottom {
+      margin-top: 28px;
+    }
+
+
+    /* CLOSING */
+
+    .closing {
+      padding: 110px 20px;
+      text-align: center;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(145,107,53,0.12),
+          transparent 70%
+        );
+    }
+
+    .closing h2 {
+      font-family: var(--serif);
+      font-size: clamp(35px, 6vw, 65px);
+      font-weight: 400;
+      color: var(--gold-light);
+    }
+
+    .closing p {
+      max-width: 450px;
+      margin: 20px auto 0;
+
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+      letter-spacing: 1px;
+    }
+
+    .closing-signature {
+      margin-top: 45px;
+
+      color: var(--gold);
+      font-family: var(--serif);
+      font-size: 19px;
+      letter-spacing: 5px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    footer p {
+      color: #777064;
+      font-size: 9px;
+      letter-spacing: 2px;
+      line-height: 2;
+    }
+
+
+    /* TABLET */
+
+    @media (max-width: 850px) {
+
+      .hero {
+        min-height: 75vh;
+      }
+
+      .featured-match {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-match .game-image {
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+      }
+
+      .featured-match .game-info {
+        padding: 25px;
+      }
+
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      .navbar {
+        padding: 19px 5%;
+      }
+
+      .brand {
+        font-size: 18px;
+        letter-spacing: 2px;
+      }
+
+      .back-link {
+        font-size: 8px;
+        letter-spacing: 1px;
+      }
+
+      .hero {
+        min-height: 78vh;
+        padding: 120px 7% 80px;
+        align-items: end;
+      }
+
+      .hero-image {
+        object-position: 58% center;
+      }
+
+      .hero-overlay {
+        background:
+          linear-gradient(
+            0deg,
+            rgba(5,5,5,0.98) 0%,
+            rgba(5,5,5,0.72) 45%,
+            rgba(5,5,5,0.2) 100%
+          );
+      }
+
+      .hero-eyebrow {
+        font-size: 9px;
+        letter-spacing: 3px;
+        margin-bottom: 18px;
+      }
+
+      .hero h1 {
+        font-size: clamp(48px, 13vw, 70px);
+      }
+
+      .hero-description {
+        font-size: 10px;
+        line-height: 2;
+        margin-top: 20px;
+      }
+
+      .hero-button {
+        padding: 13px 19px;
+        margin-top: 27px;
+        font-size: 9px;
+      }
+
+      .intro {
+        padding: 75px 22px 35px;
+      }
+
+      .intro-label {
+        font-size: 9px;
+        letter-spacing: 3px;
+      }
+
+      .intro p {
+        font-size: 10px;
+      }
+
+      .games-section {
+        padding: 35px 5% 85px;
+      }
+
+      .games-heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .games-heading h3 {
+        font-size: 29px;
+      }
+
+      .games-heading p {
+        font-size: 8px;
+      }
+
+      .game-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .game-image {
+        aspect-ratio: 1 / 0.88;
+      }
+
+      .game-info {
+        padding: 19px 18px 21px;
+      }
+
+      .game-title {
+        font-size: 29px;
+      }
+
+      .featured-match {
+        grid-column: auto;
+      }
+
+      .featured-match .game-image {
+        aspect-ratio: 1 / 0.85;
+      }
+
+      .featured-match .game-info {
+        padding: 22px 19px;
+      }
+
+      .featured-match .game-title {
+        font-size: 31px;
+      }
+
+      .featured-match .game-description {
+        font-size: 10px;
+      }
+
+      .closing {
+        padding: 85px 20px;
+      }
+
+      .closing-signature {
+        font-size: 15px;
+        letter-spacing: 3px;
+      }
+
+    }
+
+
+    /* REDUCED MOTION */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .game-card {
+        opacity: 1;
+        transform: none;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- NAVIGATION -->
+
+  <nav class="navbar">
+
+    <a href="../index.html" class="brand">
+      HORIZON OF CR7
+    </a>
+
+    <a href="../index.html" class="back-link">
+      ← Back to Home
+    </a>
+
+  </nav>
+
+
+  <!-- HERO SECTION -->
+
+  <header class="hero">
+
+    <img
+      src="../assets/images/football-hero-cr7.jpg"
+      alt="Cristiano Ronaldo Football Gaming Artwork"
+      class="hero-image"
+      fetchpriority="high">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-eyebrow">
+        HORIZON OF CR7 · GAMING UNIVERSE
+      </div>
+
+      <h1>
+        THE WORLD OF
+        <span>FOOTBALL GAMING</span>
+      </h1>
+
+      <p class="hero-description">
+        Step into a world of football challenges, unforgettable moments
+        and exciting matches. Choose your game and enter the arena.
+      </p>
+
+      <a href="#games" class="hero-button">
+        Explore Games
+        <span>↓</span>
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- INTRODUCTION -->
+
+  <section class="intro">
+
+    <div class="intro-label">
+      Choose Your Challenge
+    </div>
+
+    <h2>Enter The Arena</h2>
+
+    <p>
+      Five different football experiences.
+      One passion for the beautiful game.
+      Choose your challenge and start playing.
+    </p>
+
+  </section>
+
+
+  <!-- GAME COLLECTION -->
+
+  <main class="games-section" id="games">
+
+    <div class="games-heading">
+
+      <h3>Football Game Collection</h3>
+
+      <p>05 Interactive Experiences</p>
+
+    </div>
+
+
+    <div class="game-grid">
+
+
+      <!-- GAME 01 : PENALTY SHOOTOUT -->
+
+      <a href="../game/penalty-shootout.html"
+         class="game-card">
+
+        <div class="game-image">
+
+          <img
+            src="../assets/images/game-01-penalty-shootout.jpg"
+            alt="Penalty Shootout Game"
+            loading="lazy">
+
+          <span class="game-number">01</span>
+
+        </div>
+
+        <div class="game-info">
+
+          <div class="game-category">
+            Precision · Finishing
+          </div>
+
+          <h3 class="game-title">
+            Penalty Shootout
+          </h3>
+
+          <div class="game-bottom">
+
+            <span class="play-label">
+              Play Game
+            </span>
+
+            <span class="play-icon">
+              →
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+
+
+      <!-- GAME 02 : FREE KICK -->
+
+      <a href="../game/free-kick.html"
+         class="game-card">
+
+        <div class="game-image">
+
+          <img
+            src="../assets/images/game-02-free-kick.jpg"
+            alt="Free Kick Challenge Game"
+            loading="lazy">
+
+          <span class="game-number">02</span>
+
+        </div>
+
+        <div class="game-info">
+
+          <div class="game-category">
+            Accuracy · Technique
+          </div>
+
+          <h3 class="game-title">
+            Free Kick Challenge
+          </h3>
+
+          <div class="game-bottom">
+
+            <span class="play-label">
+              Play Game
+            </span>
+
+            <span class="play-icon">
+              →
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+
+
+      <!-- GAME 03 : TARGET SHOOTING -->
+
+      <a href="../game/target-shooting.html"
+         class="game-card">
+
+        <div class="game-image">
+
+          <img
+            src="../assets/images/game-03-target-shooting.jpg"
+            alt="Target Shooting Game"
+            loading="lazy">
+
+          <span class="game-number">03</span>
+
+        </div>
+
+        <div class="game-info">
+
+          <div class="game-category">
+            Focus · Accuracy
+          </div>
+
+          <h3 class="game-title">
+            Target Shooting
+          </h3>
+
+          <div class="game-bottom">
+
+            <span class="play-label">
+              Play Game
+            </span>
+
+            <span class="play-icon">
+              →
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+
+
+      <!-- GAME 04 : DRIBBLING CHALLENGE -->
+
+      <a href="../game/dribbling-challenge.html"
+         class="game-card">
+
+        <div class="game-image">
+
+          <img
+            src="../assets/images/game-04-dribbling-challenge.jpg"
+            alt="Dribbling Challenge Game"
+            loading="lazy">
+
+          <span class="game-number">04</span>
+
+        </div>
+
+        <div class="game-info">
+
+          <div class="game-category">
+            Skill · Ball Control
+          </div>
+
+          <h3 class="game-title">
+            Dribbling Challenge
+          </h3>
+
+          <div class="game-bottom">
+
+            <span class="play-label">
+              Play Game
+            </span>
+
+            <span class="play-icon">
+              →
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+
+
+      <!-- GAME 05 : 11 VS 11 FOOTBALL MATCH -->
+
+      <a href="../game/football-match.html"
+         class="game-card featured-match">
+
+        <div class="game-image">
+
+          <img
+            src="../assets/images/game-05-football-match.jpg"
+            alt="11 vs 11 Football Match"
+            loading="lazy">
+
+          <span class="game-number">05</span>
+
+        </div>
+
+        <div class="game-info">
+
+          <div class="game-category">
+            Football Simulation · Team Match
+          </div>
+
+          <h3 class="game-title">
+            11 vs 11 Football Match
+          </h3>
+
+          <p class="game-description">
+            Experience a full football match with two teams,
+            intelligent player movement and the excitement
+            of the beautiful game.
+          </p>
+
+          <div class="game-bottom">
+
+            <span class="play-label">
+              Enter The Match
+            </span>
+
+            <span class="play-icon">
+              →
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- CLOSING -->
+
+  <section class="closing">
+
+    <h2>
+      One Game.<br>
+      One Passion.
+    </h2>
+
+    <p>
+      Every challenge begins with a single move.
+      Step onto the pitch and enjoy the game.
+    </p>
+
+    <div class="closing-signature">
+      THE FOOTBALL GAMING UNIVERSE
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <p>
+      HORIZON OF CR7 · FOOTBALL GAMING EXPERIENCE
+      <br>
+      FAN-MADE PROJECT · NOT AFFILIATED WITH CRISTIANO RONALDO
+    </p>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    // SCROLL REVEAL
+
+    const cards = document.querySelectorAll('.game-card');
+
+    if ('IntersectionObserver' in window) {
+
+      const observer = new IntersectionObserver((entries, observer) => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add('visible');
+
+            observer.unobserve(entry.target);
+
+          }
+
+        });
+
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px 60px 0px'
+      });
+
+      cards.forEach(card => observer.observe(card));
+
+    } else {
+
+      cards.forEach(card => card.classList.add('visible'));
+
+    }
+
+  </script>
+
+</body>
+</html>
